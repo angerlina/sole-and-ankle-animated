@@ -1,40 +1,31 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-
-import { WEIGHTS } from '../../constants';
+import {SidebarLink} from "./SidebarLink";
 
 const Sidebar = () => {
   return (
     <Wrapper>
-      <Link href="/lifestyle">Lifestyle</Link>
-      <Link href="/jordan">Jordan</Link>
-      <ActiveLink href="/running">Running</ActiveLink>
-      <Link href="/basketball">Basketball</Link>
-      <Link href="/training">Training &amp; Gym</Link>
-      <Link href="/football">Football</Link>
-      <Link href="/skateboarding">Skateboarding</Link>
-      <Link href="/us-football">American Football</Link>
-      <Link href="/baseball">Baseball</Link>
-      <Link href="/golf">Golf</Link>
-      <Link href="/tennis">Tennis</Link>
-      <Link href="/athletics">Athletics</Link>
-      <Link href="/walking">Walking</Link>
+      <SidebarLink href="/lifestyle">Lifestyle</SidebarLink>
+      <SidebarLink href="/jordan">Jordan</SidebarLink>
+      <SidebarLink href="/running" isActive>Running</SidebarLink>
+      <SidebarLink href="/basketball">Basketball</SidebarLink>
+      <SidebarLink href="/training">Training &amp; Gym</SidebarLink>
+      <SidebarLink href="/football">Football</SidebarLink>
+      <SidebarLink href="/skateboarding">Skateboarding</SidebarLink>
+      <SidebarLink href="/us-football">American Football</SidebarLink>
+      <SidebarLink href="/baseball">Baseball</SidebarLink>
+      <SidebarLink href="/golf">Golf</SidebarLink>
+      <SidebarLink href="/tennis">Tennis</SidebarLink>
+      <SidebarLink href="/athletics">Athletics</SidebarLink>
+      <SidebarLink href="/walking">Walking</SidebarLink>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.aside``;
+const Wrapper = styled.aside`   
 
-const Link = styled.a`
-  display: block;
-  text-decoration: none;
-  font-weight: ${WEIGHTS.medium};
-  color: var(--color-gray-900);
-  line-height: 2;
 `;
 
-const ActiveLink = styled(Link)`
-  color: var(--color-primary);
-`;
+
 
 export default Sidebar;

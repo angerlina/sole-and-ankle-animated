@@ -1,71 +1,72 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { WEIGHTS } from '../../constants';
-import { formatPrice, pluralize, isNewShoe } from '../../utils';
+import {COLORS, WEIGHTS} from '../../constants';
+import {formatPrice, pluralize, isNewShoe} from '../../utils';
 import Spacer from '../Spacer';
 
 const ShoeCard = ({
-  slug,
-  name,
-  imageSrc,
-  price,
-  salePrice,
-  releaseDate,
-  numOfColors,
-}) => {
-  // There are 3 variants possible, based on the props:
-  //   - new-release
-  //   - on-sale
-  //   - default
-  //
-  // Any shoe released in the last month will be considered
-  // `new-release`. Any shoe with a `salePrice` will be
-  // on-sale. In theory, it is possible for a shoe to be
-  // both on-sale and new-release, but in this case, `on-sale`
-  // will triumph and be the variant used.
-  // prettier-ignore
-  const variant = typeof salePrice === 'number'
-    ? 'on-sale'
-    : isNewShoe(releaseDate)
-      ? 'new-release'
-      : 'default'
-
-  return (
-    <Link href={`/shoe/${slug}`}>
-      <Wrapper>
-        <ImageWrapper>
-          <Image alt="" src={imageSrc} />
-          {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
-          {variant === 'new-release' && (
-            <NewFlag>Just released!</NewFlag>
-          )}
-        </ImageWrapper>
-        <Spacer size={12} />
-        <Row>
-          <Name>{name}</Name>
-          <Price
-            style={{
-              '--color':
-                variant === 'on-sale'
-                  ? 'var(--color-gray-700)'
-                  : undefined,
-              '--text-decoration':
-                variant === 'on-sale' ? 'line-through' : undefined,
-            }}
-          >
-            {formatPrice(price)}
-          </Price>
-        </Row>
-        <Row>
-          <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
-          {variant === 'on-sale' ? (
-            <SalePrice>{formatPrice(salePrice)}</SalePrice>
-          ) : undefined}
-        </Row>
-      </Wrapper>
-    </Link>
-  );
+                      slug,
+                      name,
+                      imageSrc,
+                      price,
+                      salePrice,
+                      releaseDate,
+                      numOfColors,
+                  }) => {
+    // There are 3 variants possible, based on the props:
+    //   - new-release
+    //   - on-sale
+    //   - default
+    //
+    // Any shoe released in the last month will be considered
+    // `new-release`. Any shoe with a `salePrice` will be
+    // on-sale. In theory, it is possible for a shoe to be
+    // both on-sale and new-release, but in this case, `on-sale`
+    // will triumph and be the variant used.
+    // prettier-ignore
+    const variant = typeof salePrice === 'number'
+        ? 'on-sale'
+        : isNewShoe(releaseDate)
+            ? 'new-release'
+            : 'default'
+    return (
+        <Link href={`/shoe/${slug}`}>
+            <Wrapper>
+                <ImageWrapper sale={variant==='on-sale'}>
+                    <Image alt="" src={imageSrc}/>
+                    {variant === 'on-sale' && <SaleFlag>Sale!</SaleFlag>}
+                    {variant === 'new-release' && (
+                        <NewFlag>
+                            Just released!
+                        </NewFlag>
+                    )}
+                </ImageWrapper>
+                <Spacer size={12}/>
+                <Row>
+                    <Name>{name}</Name>
+                    <Price
+                        style={{
+                            '--color':
+                                variant === 'on-sale'
+                                    ? 'var(--color-gray-700)'
+                                    : undefined,
+                            '--text-decoration':
+                                variant === 'on-sale' ? 'line-through' : undefined,
+                        }}
+                    >
+                        {formatPrice(price)}
+                    </Price>
+                </Row>
+                <Row>
+                    <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+                    {variant === 'on-sale' ? (
+                        <SalePrice>{formatPrice(salePrice)}</SalePrice>
+                    ) : undefined}
+                </Row>
+            </Wrapper>
+        </Link>
+    );
 };
 
 const Link = styled.a`
@@ -77,11 +78,40 @@ const Wrapper = styled.article``;
 
 const ImageWrapper = styled.div`
   position: relative;
+  border-radius: 16px 16px 4px 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  transform-origin: 50% 90%;
+
+  img {
+    transition: transform 500ms;
+  }
+
+  :hover {
+    img {
+      transform: scale(1.1);
+      transition: transform 150ms;
+    }
+
+    div {
+      transition: transform 0.3s ease-out, 0.6s ease-in-out;
+      transform: rotate(1turn);
+      padding-top: 16px;
+      width: 100%;
+      height: 100%;
+      background-color: hsla(${props => props.sale ? COLORS.primary: COLORS.secondary} / 0.2);
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: var(--color-gray-900);
+      font-size: 1.75rem;
+    }
+  }
 `;
 
 const Image = styled.img`
   width: 100%;
-  border-radius: 16px 16px 4px 4px;
+  display: block;
 `;
 
 const Row = styled.div`

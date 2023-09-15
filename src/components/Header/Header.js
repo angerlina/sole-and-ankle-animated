@@ -8,6 +8,7 @@ import UnstyledButton from '../UnstyledButton';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
 import VisuallyHidden from '../VisuallyHidden';
+import {NavLink} from "../ShoeCard/NavLink";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -75,7 +76,7 @@ const DesktopNav = styled.nav`
   display: flex;
   gap: clamp(1rem, 9.2vw - 4.5rem, 3.5rem);
   margin: 0px 48px;
-
+  overflow: hidden;
   @media ${QUERIES.tabletAndSmaller} {
     display: none;
   }
@@ -114,16 +115,5 @@ const Filler = styled.div`
   }
 `;
 
-const NavLink = styled.a`
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-gray-900);
-  font-weight: ${WEIGHTS.medium};
-
-  &:first-of-type {
-    color: var(--color-secondary);
-  }
-`;
 
 export default Header;
